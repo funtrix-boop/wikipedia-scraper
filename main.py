@@ -36,7 +36,7 @@ def main() -> None:
 
     # convert table into pandas dataframe, and get first 30 columns
     df = html_to_df(html)
-    df = df.iloc[:, 1:3][1:31]
+    df = df.iloc[1:31, 1:3]
 
     # matplotlib plot settings
     fig, ax = plt.subplots()
@@ -49,7 +49,8 @@ def main() -> None:
     plt.title("Top 30 countries by population")
     plt.ylabel("Population (millions)")
     plt.grid(axis="y", linestyle="--")
-    plt.bar(df.Location, df.Population)
+    plt.bar(df.Location, df.Population,
+            width=0.6, color="teal")
     plt.show()
 
 
