@@ -1,6 +1,6 @@
 [project]
 name = "wikipedia-scraper"
-version = "0.2.0"
+version = "0.3.0"
 description = "Scrapes a table from Wikipedia and visualises it with Matplotlib."
 readme = "README.md"
 requires-python = ">=3.12"

@@ -1,4 +1,4 @@
-# lets fucking go it works
+import warnings
 from io import StringIO
 
 import matplotlib.pyplot as plt
@@ -8,7 +8,15 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
 
+# converts an HTML table into a dataframe
+def html_to_df(html: str) -> pd.DataFrame:
+    html_stringio = StringIO(html)
+    df = pd.read_html(html_stringio)
+    return df[0]
+
+
 def main() -> None:
+    warnings.filterwarnings("ignore", category=UserWarning)
     # set firefox options
     options = Options()
     options.add_argument("--headless")
@@ -23,10 +31,10 @@ def main() -> None:
         driver.get(url)
         # get HTML of wikipedia table
         element = driver.find_element(By.XPATH, xpath)
-        html = StringIO(element.get_attribute("outerHTML"))
+        html = element.get_attribute("outerHTML")
 
-    # convert table into pandas dataframe
-    df = pd.read_html(html)[0]
+    # convert table into pandas dataframe, and get first 30 columns
+    df = html_to_df(html)
     df = df.iloc[:, 1:3][1:31]
 
     # matplotlib plot settings
@@ -41,6 +49,7 @@ def main() -> None:
     # plot the data
     plt.bar(df.Location, df.Population)
     plt.show()
+
 
 if __name__ == "__main__":
     main()
