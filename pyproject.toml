@@ -1,0 +1,12 @@
+[project]
+name = "wikipedia-scraper"
+version = "0.1.0"
+description = "Scrapes a table from Wikipedia and visualises it with Matplotlib."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "lxml>=5.3.0",
+    "matplotlib>=3.9.2",
+    "pandas>=2.2.3",
+    "selenium>=4.25.0",
+]
