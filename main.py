@@ -39,6 +39,7 @@ def main() -> None:
 
     # plot the data
     plt.bar(df_first30.Location, df_first30.Population)
+    plt.grid(axis="y", linestyle="--")
     plt.show()
 
 if __name__ == "__main__":
