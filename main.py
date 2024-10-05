@@ -33,9 +33,9 @@ def main() -> None:
     fig, ax = plt.subplots()
     ax.set_title("Top 30 countries by population")
     ax.set_xticklabels(df_first30.Location, rotation=90)
-    ax.set_ylabel("Population (thousands)")
+    ax.set_ylabel("Population (millions)")
     ax.yaxis.offsetText.set_visible(False)
-    plt.ticklabel_format(axis="y", style="sci", scilimits=(3, 3))
+    plt.ticklabel_format(axis="y", style="sci", scilimits=(6, 6))
 
     # plot the data
     plt.bar(df_first30.Location, df_first30.Population)
