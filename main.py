@@ -1,8 +1,9 @@
-import warnings
 from io import StringIO
+from warnings import filterwarnings
 
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.ticker import MultipleLocator
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
@@ -16,7 +17,7 @@ def html_to_df(html: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    warnings.filterwarnings("ignore", category=UserWarning)
+    filterwarnings("ignore", category=UserWarning)
     # set firefox options
     options = Options()
     options.add_argument("--headless")
@@ -39,14 +40,15 @@ def main() -> None:
 
     # matplotlib plot settings
     fig, ax = plt.subplots()
-    ax.set_title("Top 30 countries by population")
     ax.set_xticklabels(df.Location, rotation=90)
-    ax.set_ylabel("Population (millions)")
-    ax.grid(axis="y", linestyle="--")
+    ax.yaxis.set_major_locator(MultipleLocator(50_000_000))
     ax.yaxis.offsetText.set_visible(False)
     plt.ticklabel_format(axis="y", style="sci", scilimits=(6, 6))
 
     # plot the data
+    plt.title("Top 30 countries by population")
+    plt.ylabel("Population (millions)")
+    plt.grid(axis="y", linestyle="--")
     plt.bar(df.Location, df.Population)
     plt.show()
 
