@@ -26,20 +26,20 @@ def main() -> None:
         html = StringIO(element.get_attribute("outerHTML"))
 
     # convert table into pandas dataframe
-    df = pd.read_html(html)[0].iloc[:, 1:3]
-    df_first30 = df[1:31]
+    df = pd.read_html(html)[0]
+    df = df.iloc[:, 1:3][1:31]
 
     # matplotlib plot settings
     fig, ax = plt.subplots()
     ax.set_title("Top 30 countries by population")
-    ax.set_xticklabels(df_first30.Location, rotation=90)
+    ax.set_xticklabels(df.Location, rotation=90)
     ax.set_ylabel("Population (millions)")
+    ax.grid(axis="y", linestyle="--")
     ax.yaxis.offsetText.set_visible(False)
     plt.ticklabel_format(axis="y", style="sci", scilimits=(6, 6))
 
     # plot the data
-    plt.bar(df_first30.Location, df_first30.Population)
-    plt.grid(axis="y", linestyle="--")
+    plt.bar(df.Location, df.Population)
     plt.show()
 
 if __name__ == "__main__":
