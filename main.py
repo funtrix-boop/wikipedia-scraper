@@ -1,5 +1,4 @@
 from io import StringIO
-from warnings import filterwarnings
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -9,7 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.options import Options
 
 
-# converts an HTML table into a dataframe
+# converts an HTML table into a DataFrame
 def html_to_df(html: str) -> pd.DataFrame:
     html_stringio = StringIO(html)
     df = pd.read_html(html_stringio)
@@ -17,8 +16,7 @@ def html_to_df(html: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    filterwarnings("ignore", category=UserWarning)
-    # set firefox options
+    # make firefox invisible
     options = Options()
     options.add_argument("--headless")
 
@@ -34,13 +32,13 @@ def main() -> None:
         element = driver.find_element(By.XPATH, xpath)
         html = element.get_attribute("outerHTML")
 
-    # convert table into pandas dataframe, and get first 30 columns
+    # convert table into pandas DataFrame, and get first 30 columns
     df = html_to_df(html)
     df = df.iloc[1:31, 1:3]
 
     # matplotlib plot settings
     fig, ax = plt.subplots()
-    ax.set_xticklabels(df.Location, rotation=90)
+    ax.tick_params(axis="x", rotation=90)
     ax.yaxis.set_major_locator(MultipleLocator(50_000_000))
     ax.yaxis.offsetText.set_visible(False)
     plt.ticklabel_format(axis="y", style="sci", scilimits=(6, 6))
@@ -49,8 +47,12 @@ def main() -> None:
     plt.title("Top 30 countries by population")
     plt.ylabel("Population (millions)")
     plt.grid(axis="y", linestyle="--")
-    plt.bar(df.Location, df.Population,
-            width=0.6, color="teal")
+    plt.bar(
+        df.Location,
+        df.Population,
+        width=0.6,
+        color="teal",
+    )
     plt.show()
 
 
